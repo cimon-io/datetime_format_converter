@@ -1,8 +1,6 @@
 # DatetimeFormatConverter
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/datetime_format_converter`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This gem allows to convert ruby datetime format to javasciprt datetime format. Also works with timezones.
 
 ## Installation
 
@@ -22,7 +20,21 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+From anywhere
+
+    DatetimeFormatConverter.datetime_format_to_js('%d %m %y') # returns 'DD MM YY'
+
+From helpers
+
+    <%= datetime_format_to_js('%d %m %y') %> # prints 'DD MM YY'
+
+And for timezones
+
+    DatetimeFormatConverter.timezone_format_to_js('Moscow') # returns 'Europe/Moscow'
+
+And helper
+
+    <%= timezone_format_to_js('Moscow') %> # prints 'Europe/Moscow'
 
 ## Development
 

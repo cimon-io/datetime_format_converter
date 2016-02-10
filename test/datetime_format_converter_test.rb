@@ -41,4 +41,12 @@ class DatetimeFormatConverterTest < Minitest::Test
     assert_raises(DatetimeFormatConverter::DatetimeNotSupportedError) { DatetimeFormatConverter.datetime_format_to_js('%W sjkdf') }
   end
 
+  def test_supported_timezone_format
+    assert_equal 'Europe/Moscow', DatetimeFormatConverter.timezone_format_to_js('Moscow')
+  end
+
+  def test_not_supported_timezone_format
+    assert_raises(DatetimeFormatConverter::DatetimeNotSupportedError) { DatetimeFormatConverter.timezone_format_to_js('Donetsk') }
+  end
+
 end
