@@ -3,7 +3,7 @@ require 'my_gem/railtie' if defined?(Rails)
 
 module DatetimeFormatConverter
 
-  class DatetimeNotSupported < ::StandardError
+  class DatetimeNotSupportedError < ::StandardError
   end
 
   FORMAT_MAPPING = [
@@ -70,8 +70,8 @@ module DatetimeFormatConverter
   ]
 
   def datetime_format_to_js(source_format)
-    raise DatetimeNotSupported if not_supported(source_format)
-    FORMAT_MAPPING.inject(source_format) do |acc, h|
+    raise DatetimeNotSupportedError.new("#{source_format} is not supported to convert it to js format") unless supported(source_format)
+    supported_formats.inject(source_format) do |acc, h|
       acc.gsub(h[0], h[1])
     end
   end
@@ -86,5 +86,10 @@ module DatetimeFormatConverter
     Regexp.new(FORMAT_MAPPING.reject{|i|i[1]}.map(&:first).map{|i|"(#{i})"}.join("|"))
   end
   module_function :not_supported_regexp
+
+  def supported_formats
+    FORMAT_MAPPING.select{ |i| i[1] }
+  end
+  module_function :supported_formats
 
 end

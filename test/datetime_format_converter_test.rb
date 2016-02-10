@@ -10,19 +10,35 @@ class DatetimeFormatConverterTest < Minitest::Test
   end
 
   def test_contains_error_class
-    assert DatetimeFormatConverter::DatetimeNotSupported.new.is_a?(StandardError)
+    assert DatetimeFormatConverter::DatetimeNotSupportedError.new.is_a?(StandardError)
   end
 
   def test_test_format
-    assert true, DatetimeFormatConverter.supported('qwe')
-    assert true, DatetimeFormatConverter.supported('%r')
-    assert true, DatetimeFormatConverter.supported('%D %T %Y')
+    assert  DatetimeFormatConverter.supported('qwe')
+    assert  DatetimeFormatConverter.supported('%r')
+    assert  DatetimeFormatConverter.supported('%D %T %Y')
+    assert !DatetimeFormatConverter.supported('%w')
     assert !DatetimeFormatConverter.supported('%w')
     assert !DatetimeFormatConverter.supported('%D %T %C')
     assert !DatetimeFormatConverter.supported('%%C')
     assert !DatetimeFormatConverter.supported('%N %E')
     assert !DatetimeFormatConverter.supported('%w %%%')
     assert !DatetimeFormatConverter.supported('%W sjkdf')
+  end
+
+  def test_supported_format
+    assert_equal 'DD MM YY', DatetimeFormatConverter.datetime_format_to_js('%d %m %y')
+    assert_equal 'ddd-EsomewordZ', DatetimeFormatConverter.datetime_format_to_js('%a-%usomeword%z')
+  end
+
+  def test_not_supported_format
+    assert_raises(DatetimeFormatConverter::DatetimeNotSupportedError) { DatetimeFormatConverter.datetime_format_to_js('%w') }
+    assert_raises(DatetimeFormatConverter::DatetimeNotSupportedError) { DatetimeFormatConverter.datetime_format_to_js('%w') }
+    assert_raises(DatetimeFormatConverter::DatetimeNotSupportedError) { DatetimeFormatConverter.datetime_format_to_js('%D %T %C') }
+    assert_raises(DatetimeFormatConverter::DatetimeNotSupportedError) { DatetimeFormatConverter.datetime_format_to_js('%%C') }
+    assert_raises(DatetimeFormatConverter::DatetimeNotSupportedError) { DatetimeFormatConverter.datetime_format_to_js('%N %E') }
+    assert_raises(DatetimeFormatConverter::DatetimeNotSupportedError) { DatetimeFormatConverter.datetime_format_to_js('%w %%%') }
+    assert_raises(DatetimeFormatConverter::DatetimeNotSupportedError) { DatetimeFormatConverter.datetime_format_to_js('%W sjkdf') }
   end
 
 end
