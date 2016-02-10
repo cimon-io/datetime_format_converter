@@ -69,17 +69,21 @@ module DatetimeFormatConverter
   ]
 
   def datetime_format_to_js(source_format)
-    raise DatetimeNotSupported if test_format(source_format)
+    raise DatetimeNotSupported if not_supported(source_format)
     FORMAT_MAPPING.inject(source_format) do |acc, h|
       acc.gsub(h[0], h[1])
     end
   end
   module_function :datetime_format_to_js
 
-  def test_format(source_format)
-    p Regexp.new(FORMAT_MAPPING.reject{|i|i[1]}.map(&:first).join("|"))
-    !!Regexp.new(FORMAT_MAPPING.reject{|i|i[1]}.map(&:first).join("|")).match(source_format)
+  def supported(source_format)
+    source_format.scan(not_supported_regexp).none?
   end
-  module_function :test_format
+  module_function :supported
+
+  def not_supported_regexp
+    Regexp.new(FORMAT_MAPPING.reject{|i|i[1]}.map(&:first).map{|i|"(#{i})"}.join("|"))
+  end
+  module_function :not_supported_regexp
 
 end

@@ -14,15 +14,15 @@ class DatetimeFormatConverterTest < Minitest::Test
   end
 
   def test_test_format
-    assert true, DatetimeFormatConverter.test_format('qwe')
-    assert true, DatetimeFormatConverter.test_format('%r')
-    assert true, DatetimeFormatConverter.test_format('%D %T %Y')
-    assert false, DatetimeFormatConverter.test_format('%D %T %C')
-    assert false, DatetimeFormatConverter.test_format('%D %T %C')
-    assert false, DatetimeFormatConverter.test_format('%%C')
-    assert false, DatetimeFormatConverter.test_format('%N %E')
-    assert false, DatetimeFormatConverter.test_format('%w %%%')
-    assert false, DatetimeFormatConverter.test_format('%W sjkdf')
+    assert true, DatetimeFormatConverter.supported('qwe')
+    assert true, DatetimeFormatConverter.supported('%r')
+    assert true, DatetimeFormatConverter.supported('%D %T %Y')
+    assert !DatetimeFormatConverter.supported('%w')
+    assert !DatetimeFormatConverter.supported('%D %T %C')
+    assert !DatetimeFormatConverter.supported('%%C')
+    assert !DatetimeFormatConverter.supported('%N %E')
+    assert !DatetimeFormatConverter.supported('%w %%%')
+    assert !DatetimeFormatConverter.supported('%W sjkdf')
   end
 
 end
