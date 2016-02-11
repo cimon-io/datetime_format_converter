@@ -1,5 +1,5 @@
 require "datetime_format_converter/version"
-require 'my_gem/railtie' if defined?(Rails)
+require 'datetime_format_converter/railtie' if defined?(Rails)
 
 module DatetimeFormatConverter
 
