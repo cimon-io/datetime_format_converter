@@ -1,5 +1,7 @@
+require 'datetime_format_converter/view_helpers'
+
 module DatetimeFormatConverter
-  module Railtie < Rails::Railtie
+  class Railtie < Rails::Railtie
     initializer "datetime_format_converter.view_helpers" do
       ActionView::Base.send :include, ViewHelpers
     end
